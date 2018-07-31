@@ -1,0 +1,24 @@
+html
+    head
+        style
+        //- 属性放在括号里面，多个属性逗号分隔
+        script(src='1.js')
+        link(rel="stylesheet", href="")
+    body
+        div
+            ul
+                li
+                    //- 内容空一格直接写就行
+                    a(href="a.html") 官网
+                li
+                li
+        div 子1
+            span 孙1
+        div(style="width:200;height:200px;")
+        div(class="left right")
+        div(class=['left','right'])
+        //- 简写
+        div.div1
+        div#div2 
+        //- 加上attributes就可以按对象格式写
+        div&attributes({title:'aaa',class:"div1"})    
