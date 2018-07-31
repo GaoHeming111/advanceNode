@@ -1,11 +1,21 @@
 html
     head
-        style
-        //- 属性放在括号里面，多个属性逗号分隔
-        script(src='1.js')
+        //- 属性放在括号里面，多个属性逗号分隔,script后加一个‘.’代表他的下一级原样输出
+        script.
+            //- include引入外部文件
+            //- include a.js
+            window.onload=function(){
+                alert(1);
+            }
         link(rel="stylesheet", href="")
     body
         div
+            //- ‘|’表示原样输出，即输出'abc',而不是<abc></abc>
+            |abc  
+            //- '-'表示按代码输出
+            -var a= 5
+            //- 输出<span>5</span>
+            span=a
             ul
                 li
                     //- 内容空一格直接写就行
@@ -21,4 +31,6 @@ html
         div.div1
         div#div2 
         //- 加上attributes就可以按对象格式写
-        div&attributes({title:'aaa',class:"div1"})    
+        div&attributes({title:'aaa',class:"div1"}) 
+        div 我的名字: #{name} #{a+b}
+
