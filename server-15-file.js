@@ -14,6 +14,7 @@ server.post('/',function(req,res,next){
     //                2.重命名临时文件
 
     // pathLib.parse().ext()-----获取文件的拓展名
+    console.log(req.files[0])
     var newName = req.files[0].path + pathLib.parse(req.files[0].originalname).ext
     // (原始文件路径，新文件路径)
     fs.rename(req.files[0].path,newName,(err)=>{
