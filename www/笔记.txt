@@ -1,0 +1,76 @@
+mongod --config E:\MongoDB\etc\mongo.conf --httpinterface
+
+#数据库路径
+dbpath=E:\MongoDB\data --rest
+#日志输出文件路径
+logpath=E:\MongoDB\logs\mongo.log
+#错误日志采用追加模式，配置这个选项后mongodb的日志会追加到现有的日志文件，而不是从新创建一个新文件
+logappend=true
+#启用日志文件，默认启用
+journal=true
+#这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为false
+quiet=false
+#端口号 默认为27017
+port=27017
+#指定存储引擎（默认先不加此引擎，如果报错了，大家在加进去）
+storageEngine=mmapv1
+
+这个user是个集合
+创建集合 db.createCollections('user')或者 db.user.insert({id:101,name:"hello"})
+查询集合 show collections 
+删除当前user集合 db.user.drop
+插入数据库 use '数据库名字'
+删除当前数据库 db.dropDatabase()
+
+增加：db.user.insert({id:101,name:"hello"})
+更新: db.user.update({userName:"jack"},{$set:{userAge:30}})
+查询：db.user.find() 查询大于20岁的 db.user.find({userAge:{$gt:20}})
+删除：db.user.remove({userId:101})
+向集合引入文件 mongoimport -d db_demo -c users --file C:\Users\GHM\Desktop\桌面\dumall-users
+pm2:nodejs的应用进程管理器
+Mongoose:对mongodb的封装，提供API,方便操作数据库
+
+请求方式：get(数据在url中),post（数据不在url中）
+get: res.write();res.end()
+post: req.on('data',function);req.on('end',function)
+
+系统模块：
+Crypto:加密
+Events:事件
+Net:网络操作
+OS：处理系统信息
+Path:处理文件路径
+Stream:流操作
+Timers:定时器
+Zlib:压缩
+
+自定义模块
+1模块组成
+2npm 
+	npm init:初始化包的信息；npm publish:发布信息；  npm update:更新模块；  npm --force unpublish:卸载模块
+3发布自己模块
+
+express
+req.query-----GET数据
+req.body------POST数据，需要body-parser中间件，1.server.use(bodyParser.urlencoded({}))  2.server.use('/',()=>{req.body})
+cookie:在浏览器客户端保存数据，每次请求时把数据带给服务器，不安全，有限4k
+session:保存数据，保存在服务器，基于cookie实现，cookie中会有一个sessionID,服务器利用这个id找到session文件，然后读取写入，相对安全些 
+
+模板引擎
+jade:破坏式侵入式强依赖式，不能与html共存
+ejs：非侵入式，不破坏原有html,对html加工
+
+15-----
+body-parser 解析post数据  type=application/x-www-form-urlencoded
+	server.use(bodyParser.urlencoded())
+multer 解析post文件	type=multipart/form-data
+	1.var obj = multer({dist:"文件的存储地址"})
+	2.server.use(obj.any())
+	3.server.use((req,res)=>{
+		req.files[0].originalname--------原始文件名
+		req.files[0].path-----------------临时文件路径
+	})
+	4.把拓展名加上
+	  var newName = req.files[0].path + pathLib.parse(file.originalname).ext
+	5.fs重命名
+	  fs.rename(“老路径”，“新路径”，function(err){})
