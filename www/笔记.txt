@@ -60,7 +60,7 @@ session:保存数据，保存在服务器，基于cookie实现，cookie中会有一个sessionID,服务器
 jade:破坏式侵入式强依赖式，不能与html共存
 ejs：非侵入式，不破坏原有html,对html加工
 
-15-----
+15----------------------------------------------------------------------------------
 body-parser 解析post数据  type=application/x-www-form-urlencoded
 	server.use(bodyParser.urlencoded())
 multer 解析post文件	type=multipart/form-data
@@ -74,3 +74,21 @@ multer 解析post文件	type=multipart/form-data
 	  var newName = req.files[0].path + pathLib.parse(file.originalname).ext
 	5.fs重命名
 	  fs.rename(“老路径”，“新路径”，function(err){})
+
+16----------------------------------------------------------------------------------
+consolidate:帮助express适配各种模板引擎，为引擎提供统一的接口
+    // 输出什么东西
+        server.set('view engine','html') //view engine 视图引擎，即以哪种方式呈现
+    // 模板文件放在哪
+        server.set('views','./views')
+    // 要使用哪种模板引擎
+        server.engine('html',consolidate.ejs)
+    //接受用户数据
+        server.get('/index',(req,res)=>{
+	res.render('地址','数据')
+        })
+route-路由：把不同的目录，对应到不同的模块
+  1.创建router------var libRouter = express.Router() 
+  2.把router添加到server------server.use('/users',libRouter)
+  3.router内部服务-----libRouter.get('/1.html',(req,res)=>{})  
+     
