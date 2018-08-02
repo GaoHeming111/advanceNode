@@ -30,16 +30,33 @@ server.use(bodyParser.urlencoded({extended:false}))
     // 要使用哪种模板引擎
         server.engine('html',consolidate.ejs)
     // 接受用户数据
-        server.get('/',(req,res)=>{
+        // 查询banner图
+        server.get('/',(req,res,next)=>{
             db.query('SELECT * FROM banner_table',(err,data)=>{
                 if(err){
-                    console.log(err)
                     res.status(500).send('database error').end()
                 }else{
-                    console.log(data)
-                    res.render('index.ejs',{banners:data})
+                    res.banners=data
+                    next()
                 }
             })
+        })
+        server.get('/',(req,res,next)=>{
+            // 查询新闻列表
+            db.query('SELECT title,summary,ID FROM article_table',(err,data)=>{
+                if(err){
+                    res.status(500).send('database error').end()
+                }else{
+                    res.articles=data
+                    next()
+                }
+            })
+        })
+        server.get('/',(req,res)=>{
+            res.render('index.ejs',{banners:res.banners,articles:res.articles})
+        })
+        server.get('/article',(req,res)=>{
+            res.render('conText.ejs',{})
         })
 // 4.static数据
 server.use(static('./www'))
