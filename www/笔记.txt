@@ -85,6 +85,7 @@ consolidate:帮助express适配各种模板引擎，为引擎提供统一的接口
         server.engine('html',consolidate.ejs)
     //接受用户数据
         server.get('/index',(req,res)=>{
+	//渲染视图
 	res.render('地址','数据')
         })
 route-路由：把不同的目录，对应到不同的模块

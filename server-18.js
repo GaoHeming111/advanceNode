@@ -4,7 +4,7 @@ const mysql = require('mysql')
 var db = mysql.createConnection({host:'localhost',user:'root',password:'123456',database:'20180801'})
 
 // 2-查询（向服务器发送一个数据）
-// query(干啥，回掉函数)
+// query(干啥SQL，回掉函数)
 db.query('SELECT * FROM `user_table`',(err,data)=>{
     if(err){
         console.log('有错')
