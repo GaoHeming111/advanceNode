@@ -35,7 +35,7 @@ server.use(bodyParser.urlencoded({extended:false}))
         server.get('/',(req,res,next)=>{
             db.query('SELECT * FROM banner_table',(err,data)=>{
                 if(err){
-                    res.status(500).send('database error').end()
+                    res.status(500).send( err).end()
                 }else{
                     res.banners=data
                     next()
@@ -46,7 +46,7 @@ server.use(bodyParser.urlencoded({extended:false}))
             // 查询新闻列表
             db.query('SELECT title,summary,ID FROM article_table',(err,data)=>{
                 if(err){
-                    res.status(500).send('database error').end()
+                    res.status(500).send("2"+err).end()
                 }else{
                     res.articles=data
                     next()
@@ -58,22 +58,48 @@ server.use(bodyParser.urlencoded({extended:false}))
         })
         server.get('/article',(req,res)=>{
             if(req.query.id){
-                db.query(`SELECT * FROM article_table WHERE ID=${req.query.id}`,(err,data)=>{
-                    if(err){
-                        res.status(500).send('数据有问题')
-                    }else{
-                        if(data.length==0){
-                            res.status(404).send('您的请求找不到').end()
+                if(req.query.act=='like'){
+                    db.query(`UPDATE article_table SET n_like=n_like+1 WHERE ID=${req.query.id}`,(err,data)=>{
+                        if(err){
+                            res.status(500).send('数据库有问题').end()
+                            console.error(err)
                         }else{
-                            var articleData = data[0]
-                            articleData.sDate = common.time2date(articleData.post_time)
-                            articleData.content = articleData.content.replace(/^/gm,'<p>').replace(/$/gm,'</p>')
-                            res.render('conText.ejs',{
-                                article_data:articleData
+                            db.query(`SELECT * FROM article_table WHERE ID=${req.query.id}`,(err,data)=>{
+                                if(err){
+                                    res.status(500).send('数据有问题')
+                                }else{
+                                    if(data.length==0){
+                                        res.status(404).send('您的请求找不到').end()
+                                    }else{
+                                        var articleData = data[0]
+                                        articleData.sDate = common.time2date(articleData.post_time)
+                                        articleData.content = articleData.content.replace(/^/gm,'<p>').replace(/$/gm,'</p>')
+                                        res.render('conText.ejs',{
+                                            article_data:articleData
+                                        })
+                                    }
+                                }
                             })
                         }
-                    }
-                })
+                    })
+                }else{
+                    db.query(`SELECT * FROM article_table WHERE ID=${req.query.id}`,(err,data)=>{
+                        if(err){
+                            res.status(500).send('数据有问题')
+                        }else{
+                            if(data.length==0){
+                                res.status(404).send('您的请求找不到').end()
+                            }else{
+                                var articleData = data[0]
+                                articleData.sDate = common.time2date(articleData.post_time)
+                                articleData.content = articleData.content.replace(/^/gm,'<p>').replace(/$/gm,'</p>')
+                                res.render('conText.ejs',{
+                                    article_data:articleData
+                                })
+                            }
+                        }
+                    })
+                }
             }else{
                 res.status(404).send('您的请求找不到').end()
             }
