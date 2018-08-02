@@ -5,6 +5,7 @@ const consolidate = require('consolidate')
 const bodyParser = require('body-parser')
 const static = require('express-static')
 const mysql = require("mysql")
+const common = require('./libs/common')
 var server = express()
 server.listen(8888)
 
@@ -56,7 +57,27 @@ server.use(bodyParser.urlencoded({extended:false}))
             res.render('index.ejs',{banners:res.banners,articles:res.articles})
         })
         server.get('/article',(req,res)=>{
-            res.render('conText.ejs',{})
+            if(req.query.id){
+                db.query(`SELECT * FROM article_table WHERE ID=${req.query.id}`,(err,data)=>{
+                    if(err){
+                        res.status(500).send('数据有问题')
+                    }else{
+                        if(data.length==0){
+                            res.status(404).send('您的请求找不到').end()
+                        }else{
+                            var articleData = data[0]
+                            articleData.sDate = common.time2date(articleData.post_time)
+                            articleData.content = articleData.content.replace(/^/gm,'<p>').replace(/$/gm,'</p>')
+                            res.render('conText.ejs',{
+                                article_data:articleData
+                            })
+                        }
+                    }
+                })
+            }else{
+                res.status(404).send('您的请求找不到').end()
+            }
+            
         })
 // 4.static数据
 server.use(static('./www'))
