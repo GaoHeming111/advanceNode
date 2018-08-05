@@ -44,6 +44,9 @@ Stream:流操作
 Timers:定时器
 Zlib:压缩
 
+加‘/’是绝对路径
+没有‘/’是相对路径
+
 自定义模块
 1模块组成
 2npm 
@@ -108,6 +111,38 @@ route-路由：把不同的目录，对应到不同的模块
 18----------------------------------------------------------------------------------
 SQL:结构化查询语句，所有数据库操作的基础，即数据库只听得懂SQL，有四大语句--增删改查，关键字大写
 增--insert------INSERT INTO `user_table`(`ID`,`username`,`password`) VALUES(0,"blue2","678787");
-删--delete-------
-改--update-------
+删--delete-------DELETE FROM 表 WHERE 条件	
+改--update-------UPDATE 表 SET 字段=值，字段=值 WHERE 条件
 查--select-------SELECT * FROM `user_table`
+子句：
+1.WHERE条件 
+---------WHERE age>=18 AND/OR  score>100
+2.ORDER排序
+ORDER BY age ASC/DESC
+---------ASC升序 DESC降序
+---------价格升序排序，如果价格相同，在按销量降序排序-----ORDER BY price ASC,sales DESC
+3.GROUP 聚类--合并相同的
+---------统计每个班的人数----SELECT class,COUNT(class) FROM student_table GROUP BY class
+---------计算每个班级的平均分-----SELECT class,AVG(score) FROM student_table GROUP BY class
+---------计算每个班级的最高分和最低分-------SELECT class,MAX(score),MIN(score) FROM student_table GROUP BY class
+4.LIMIT---限制输出，常用来分页
+--------LIMIT 10;前十条
+--------LIMIT 5，8；从5开始，要8个
+--------假设每页20个数据，第n页：LIMIT （n-1）*20，20
+--------子句是有顺序的-----WHERE(筛选)--- GROUP(合并)--- ORDER(排序)--- LIMIT(限制)
+
+
+27-------------------------------------------------------------------------------------------
+一。数据字典
+admin_table----管理员表
+banner_table----焦点图表
+intro_table----产品介绍表 
+custom_evaluation_table----用户评价表
+news_table----新闻表
+blog_table----博文表
+contact_table----地址表
+msg_table----发送信息表
+aboutus_table----关于我们表
+
+const mysql=require('mysql');
+var db = mysql.createPool({host:"localhost",user:"root",password:"123456",database:"learn"})
