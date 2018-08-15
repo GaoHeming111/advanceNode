@@ -9,7 +9,7 @@ fs.readFile('file/aaa.txt',(err,data)=>{
     }
 })
 
-// writeFile('文件名'，'内容'，'回调')
+// writeFile('文件名','内容','回调')
 fs.writeFile('file/bbb.txt',"bbbbb",(err)=>{
     console.log(err)
 })

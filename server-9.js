@@ -22,4 +22,5 @@ server.get('/login',(req,res)=>{
         }
     }
 })
+// .use()用于加载中间件
 server.use(expressStatic('./www'))
