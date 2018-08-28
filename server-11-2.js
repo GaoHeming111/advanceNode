@@ -1,5 +1,5 @@
 const express = require('express')
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')  //cookie-parser 的作用就是设置，获取和删除 cookie。
 var server = express()
 // 发送cookie 
 // 1--读取 2--写入

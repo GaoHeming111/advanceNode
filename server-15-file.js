@@ -7,7 +7,7 @@ const pathLib = require('path')
 var objMulter = multer({dest:'upload/'})
 var server = express()
 
-server.use(objMulter.any())
+server.use(objMulter.any()) //表示接受任何文件
 
 server.post('/',function(req,res,next){
     //重命名文件分两步 1.获取原始文件拓展名
@@ -15,6 +15,7 @@ server.post('/',function(req,res,next){
 
     // pathLib.parse().ext()-----获取文件的拓展名
     console.log(req.files[0])
+                                      // pathLib.parse()返回路径字符串的对象
     var newName = req.files[0].path + pathLib.parse(req.files[0].originalname).ext
     // (原始文件路径，新文件路径)
     fs.rename(req.files[0].path,newName,(err)=>{

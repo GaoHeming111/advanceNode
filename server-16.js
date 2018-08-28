@@ -1,7 +1,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
-const consolidate = require('consolidate')
+const consolidate = require('consolidate') //模板引擎库
 const bodyParser = require('body-parser')
 const static = require('express-static')
 var server = express()
